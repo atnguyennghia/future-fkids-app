@@ -1,0 +1,27 @@
+<svg width="284" height="56" viewBox="0 0 284 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <filter id="filter0_d_363_1151" x="0" y="0" width="284" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset dy="2"/>
+            <feGaussianBlur stdDeviation="2"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_363_1151"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_363_1151" result="shape"/>
+        </filter>
+        <linearGradient id="paint0_linear_363_1151" x1="138.018" y1="2.6086" x2="138.018" y2="49.2209" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#049FF9"/>
+            <stop offset="1" stop-color="#1B51BA"/>
+        </linearGradient>
+    </defs>
+    <g filter="url(#filter0_d_363_1151)">
+        <rect width="276" height="48" rx="24" transform="matrix(-1 0 0 1 280 2)" fill="url(#paint0_linear_363_1151)"/>
+        <path d="M8.38289 19.0445C7.79775 20.4058 7.44667 22.9923 10.7234 22.4478C14.8194 21.7671 10.1383 15.6411 8.38289 19.0445Z" fill="#F8FAE7" fill-opacity="0.6"/>
+        <path d="M23.4616 6.1622C16.4598 7.16459 12.6517 10.3994 11.1142 15.1622C10.3879 17.4122 12.1876 20.1611 14.5369 16.5224C15.9896 14.2724 17.4423 12.7724 19.6412 11.1494C22.3766 9.13047 30.5359 5.14943 23.4616 6.1622Z" fill="#F8FAE7" fill-opacity="0.6"/>
+        <g style="mix-blend-mode:overlay">
+            <path d="M274.374 33.0753C274.959 31.714 274.467 27.3411 272.034 29.672C268.98 32.5978 272.619 36.4786 274.374 33.0753Z" fill="#F8FAE7" fill-opacity="0.6"/>
+            <path d="M254.454 45.3477C261.717 45.3477 268.674 41.5976 270.211 36.8349C270.938 34.5848 269.763 32.5053 266.768 35.5976C263.863 38.5976 257.359 42.3477 251.549 42.3477C245.738 42.3477 247.312 45.3476 254.454 45.3477Z" fill="#F8FAE7" fill-opacity="0.6"/>
+        </g>
+    </g>
+</svg>

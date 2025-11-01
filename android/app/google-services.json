@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "959626589629",
+    "project_id": "fkids-290",
+    "storage_bucket": "fkids-290.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959626589629:android:cc6dfffad46e415591ced4",
+        "android_client_info": {
+          "package_name": "vn.edu.futurelang.fkids"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959626589629-log8mqa6qn9cu9l7rn71s4r9l9msvkma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj7khTLuTIJhUJgSLRsXdT8Tc4FRZGuAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959626589629-log8mqa6qn9cu9l7rn71s4r9l9msvkma.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "959626589629-rih071rnmgbkgl09g39cuvce454c6qd6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "vn.edu.futurelang.fkids"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
