@@ -12,6 +12,7 @@ import 'package:futurekids/utils/notify.dart';
 // import 'package:futurekids/widgets/stroke_text.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
@@ -198,7 +199,7 @@ class LectureController extends GetxController {
           }
         }
       }
-
+      debugPrint('video==>>>: ${result["contents"][0]["video"]}');
       return result["contents"][0]["video"];
     }
     return null;
@@ -236,21 +237,27 @@ class LectureController extends GetxController {
   @override
   void onInit() async {
     fetchContent().then((value) async {
-      if (value != null) {
-        videoPlayerController = VideoPlayerController.network(value);
-        await videoPlayerController?.initialize();
-        chewieController = ChewieController(
-          videoPlayerController: videoPlayerController!,
-          autoPlay: false,
-          looping: false,
-          aspectRatio: videoPlayerController?.value.aspectRatio,
-          autoInitialize: true,
-          allowPlaybackSpeedChanging: false,
-          showControlsOnInitialize: false,
-        );
-        isLoading.value = false;
-        videoPlayerController?.addListener(checkVideo);
+      if (value != null && value.isNotEmpty) {
+        try {
+          videoPlayerController = VideoPlayerController.network(value);
+          await videoPlayerController?.initialize();
+          if (videoPlayerController != null && videoPlayerController!.value.isInitialized) {
+            chewieController = ChewieController(
+              videoPlayerController: videoPlayerController!,
+              autoPlay: false,
+              looping: false,
+              aspectRatio: videoPlayerController?.value.aspectRatio,
+              autoInitialize: true,
+              allowPlaybackSpeedChanging: false,
+              showControlsOnInitialize: false,
+            );
+            videoPlayerController?.addListener(checkVideo);
+          }
+        } catch (e) {
+          Notify.error('Lỗi khi tải video: $e');
+        }
       }
+      isLoading.value = false;
       // isLoading.value = true;
       // await subControllerVI?.initial();
       // if (value != null) {

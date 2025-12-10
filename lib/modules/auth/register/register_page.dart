@@ -65,6 +65,7 @@ class RegisterPage extends StatelessWidget {
               focusNode: controller.txtPhoneFocusNode,
               listTextInputFormatter: [
                 FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                LengthLimitingTextInputFormatter(12),
               ],
               textInputType: TextInputType.number,
             ),

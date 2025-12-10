@@ -50,7 +50,15 @@ class Helper {
   }
 
   bool isValidPhone(String value) {
-    final phoneRegExp = RegExp(r"(0[3|5|7|8|9])+([0-9]{8})\b");
-    return phoneRegExp.hasMatch(value);
+    final normalized = value.trim();
+
+    // Việt Nam: 10 digits, starts with 03/05/07/08/09
+    final vnRegExp = RegExp(r'^(0[35789])[0-9]{8}$');
+
+    // Nhật: 10-11 digits, starts with 0x… or 81…
+    // Examples: 0901234567, 07012345678, 81312345678
+    final jpRegExp = RegExp(r'^(0\d{9,10}|81\d{9,10})$');
+
+    return vnRegExp.hasMatch(normalized) || jpRegExp.hasMatch(normalized);
   }
 }

@@ -10,6 +10,7 @@ import 'package:futurekids/widgets/box_border_gradient.dart';
 import 'package:futurekids/widgets/k_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 
@@ -89,45 +90,120 @@ class ReviewView extends StatelessWidget {
   }
 
   Widget _boxImage(BuildContext context) {
-    return controller.listReview.first["image"] != null &&
-            controller.listReview.first["image"].toString().isNotEmpty
-        ? Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: InkWell(
-              onTap: () {
-                SystemChrome.setPreferredOrientations([
-                  DeviceOrientation.landscapeLeft,
-                ]).then((value) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ImageFullscreenView(
-                            imageUrl: controller.listReview.first["image"]))));
-              },
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                    gradient: const RadialGradient(
-                        radius: 0.94,
-                        stops: [0.0, 1.0],
-                        colors: [Color(0xFF1F4F4C), Color(0xFF0D2942)]),
-                    borderRadius: BorderRadius.circular(6),
-                    border:
-                        Border.all(width: 2, color: const Color(0xFFFEEFE7))),
-                child: AspectRatio(
-                  aspectRatio: 320 / 164,
-                  child: CachedNetworkImage(
-                      imageUrl: controller.listReview.first["image"],
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => const Center(
+    final rawImageUrl = controller.listReview.first["image"]?.toString() ?? '';
+    final imageUrl = rawImageUrl.trim();
+    
+    debugPrint('Image URL (raw): $rawImageUrl');
+    debugPrint('Image URL (trimmed): $imageUrl');
+    
+    if (imageUrl.isEmpty) {
+      return const SizedBox();
+    }
+    
+    // Validate URL format
+    if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
+      debugPrint('Invalid URL format: $imageUrl');
+      return const SizedBox();
+    }
+    
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: InkWell(
+        onTap: () {
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.landscapeLeft,
+          ]).then((value) => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ImageFullscreenView(
+                      imageUrl: imageUrl))));
+        },
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+              gradient: const RadialGradient(
+                  radius: 0.94,
+                  stops: [0.0, 1.0],
+                  colors: [Color(0xFF1F4F4C), Color(0xFF0D2942)]),
+              borderRadius: BorderRadius.circular(6),
+              border:
+                  Border.all(width: 2, color: const Color(0xFFFEEFE7))),
+          child: AspectRatio(
+            aspectRatio: 320 / 164,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.contain,
+                headers: {
+                  'User-Agent': 'Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36',
+                  'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    debugPrint('Image loaded successfully: $imageUrl');
+                    return child;
+                  }
+                  final progress = loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null;
+                  if (progress != null) {
+                    debugPrint('Image loading: ${(progress * 100).toStringAsFixed(1)}% - $imageUrl');
+                  }
+                  return Container(
+                    color: Colors.grey[200],
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: progress,
+                      ),
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  debugPrint('Image.network error: $error');
+                  debugPrint('Error type: ${error.runtimeType}');
+                  debugPrint('Stack trace: $stackTrace');
+                  debugPrint('Failed URL: $imageUrl');
+                  // Try CachedNetworkImage as fallback
+                  return CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      color: Colors.grey[200],
+                      child: const Center(
                         child: CircularProgressIndicator(),
                       ),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
-                ),
+                    errorWidget: (context, url, error) {
+                      debugPrint('CachedNetworkImage also failed: $error');
+                      return Container(
+                        color: Colors.grey[300],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.error, color: Colors.red),
+                            const SizedBox(height: 8),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
+                                'Không thể tải hình ảnh',
+                                style: CustomTheme.medium(12),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
-          )
-        : const SizedBox();
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _boxUpload() {

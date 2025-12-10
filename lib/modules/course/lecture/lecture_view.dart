@@ -57,30 +57,59 @@ class LectureView extends StatelessWidget {
     return BoxBorderGradient(
       borderRadius: BorderRadius.circular(12),
       borderSize: 3,
-      child: Obx(() => controller.isLoading.value
-          ? AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: controller.courseController.unitController.book.value
-                                .subjectId ==
-                            2
-                        ? kPrimaryColor
-                        : kAccentColor,
+      child: Obx(() {
+        if (controller.isLoading.value) {
+          return AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: controller.courseController.unitController.book.value
+                              .subjectId ==
+                          2
+                      ? kPrimaryColor
+                      : kAccentColor,
+                ),
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
                   ),
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  )),
-            )
-          : ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Chewie(
-                controller: controller.chewieController!,
+                )),
+          );
+        }
+        
+        if (controller.chewieController == null) {
+          return AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: controller.courseController.unitController.book.value
+                            .subjectId ==
+                        2
+                    ? kPrimaryColor
+                    : kAccentColor,
               ),
-            )),
+              child: const Center(
+                child: Text(
+                  'Không thể tải video',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          );
+        }
+        
+        return AspectRatio(
+          aspectRatio: controller.videoPlayerController?.value.aspectRatio ?? 16 / 9,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Chewie(
+              controller: controller.chewieController!,
+            ),
+          ),
+        );
+      }),
     );
   }
 

@@ -121,7 +121,7 @@ class ProfileController extends GetxController {
                     height: 6,
                   ),
                   Text(
-                    'HOTLINE: 1900 2525 86',
+                    'HOTLINE: 0855 768 887',
                     style:
                         CustomTheme.medium(16).copyWith(color: kPrimaryColor),
                   ),

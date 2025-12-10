@@ -34,6 +34,7 @@ class ContactPage extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.asset(
                       'assets/icons/contact_girl.png',
@@ -65,10 +66,10 @@ class ContactPage extends StatelessWidget {
                     KButton(
                       onTap: () => controller.openUrl(
                           'https://www.facebook.com/Futurekids-108002788845299/'),
-                      width: 80,
+                      width: 90,
                       height: 32,
                       title: 'Chat ngay',
-                      style: CustomTheme.semiBold(14)
+                      style: CustomTheme.semiBold(12)
                           .copyWith(color: Colors.white),
                     )
                   ],
@@ -78,6 +79,7 @@ class ContactPage extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.asset(
                       'assets/icons/cskh.png',
@@ -96,7 +98,7 @@ class ContactPage extends StatelessWidget {
                               .copyWith(color: kNeutral2Color),
                         ),
                         Text(
-                          '1920 252586',
+                          '0855 768 887',
                           style: CustomTheme.medium(12)
                               .copyWith(color: kNeutral2Color),
                         )
@@ -106,11 +108,14 @@ class ContactPage extends StatelessWidget {
                       width: 8,
                     ),
                     InkWell(
-                      onTap: () => controller.openUrl('tel:1920252586'),
-                      child: Text(
-                        'LIÊN HỆ',
-                        style: CustomTheme.semiBold(16)
-                            .copyWith(color: kPrimaryColor),
+                      onTap: () => controller.openUrl('tel:0855768887'),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(
+                          'LIÊN HỆ',
+                          style: CustomTheme.semiBold(16)
+                              .copyWith(color: kPrimaryColor),
+                        ),
                       ),
                     )
                   ],
@@ -120,6 +125,7 @@ class ContactPage extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.asset(
                       'assets/icons/email.png',
@@ -150,10 +156,13 @@ class ContactPage extends StatelessWidget {
                     InkWell(
                       onTap: () => controller
                           .openUrl('mailto:contact@futurekids.edu.vn'),
-                      child: Text(
-                        'LIÊN HỆ',
-                        style: CustomTheme.semiBold(16)
-                            .copyWith(color: kPrimaryColor),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(
+                          'LIÊN HỆ',
+                          style: CustomTheme.semiBold(16)
+                              .copyWith(color: kPrimaryColor),
+                        ),
                       ),
                     )
                   ],
