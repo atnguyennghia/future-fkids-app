@@ -30,7 +30,8 @@ class StartGameArchery extends FlameGame {
 
     SpriteComponent background = SpriteComponent()
       ..sprite = await loadSprite('$assetsPath/images/background-final.png')
-      ..size = size;
+      ..size = size
+      ..position = Vector2.zero();
 
     add(background);
 

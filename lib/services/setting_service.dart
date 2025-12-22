@@ -24,7 +24,7 @@ class SettingService extends GetxService {
         .catchError((err) {
       printError(info: err.toString());
     });
-
+    print('result123: $_result');
     if (_result != null) {
       if (_result['active_card'] != null) {
         isShowActiveCard = _result['active_card'] == 1;

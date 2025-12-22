@@ -9,7 +9,13 @@ import 'package:archery/archery.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:swimming_pool/swimming_pool.dart';
 import 'package:webview_flutter/webview_flutter.dart' as wv;
-import 'package:webview_flutter/webview_flutter.dart' show JavascriptMode, AutoMediaPlaybackPolicy, JavascriptChannel, WebViewController, NavigationDelegate;
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:webview_flutter/webview_flutter.dart'
+    show
+        PlatformWebViewControllerCreationParams,
+        WebViewController,
+        WebViewPlatform;
 import 'game_controller.dart';
 
 class GamePage extends StatelessWidget {
@@ -28,14 +34,22 @@ class GamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isFlameGame = controller.game.urlGame.toString().contains('archery') ||
+        controller.game.urlGame.toString().contains('plan-vs-zombies') ||
+        controller.game.urlGame.toString().contains('swimming-pool');
+
     return WillPopScope(
         child: Scaffold(
-            body: controller.game.urlGame.toString().contains('archery') ||
-                    controller.game.urlGame
-                        .toString()
-                        .contains('plan-vs-zombies') ||
-                    controller.game.urlGame.toString().contains('swimming-pool')
-                ? showGameAI()
+            body: isFlameGame
+                ? FutureBuilder(
+                    future: controller.ensureGameOrientation(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return showGameAI();
+                    },
+                  )
                 : showWebView()),
         onWillPop: () async {
           if (kIsWeb) {
@@ -87,33 +101,54 @@ class GamePage extends StatelessWidget {
                       )))
             ],
           )
-        : wv.WebViewWidget(
-            controller: wv.WebViewController()
-              ..setJavaScriptMode(JavascriptMode.unrestricted)
-              ..setNavigationDelegate(
-                wv.NavigationDelegate(
-                  onProgress: (value) =>
-                      controller.loadingProcess.value = value.toDouble(),
-                ),
-              )
-              ..addJavaScriptChannel(
-                'FKids',
-                onMessageReceived: (message) {
-                  final obj = jsonDecode(message.message);
-                  if (obj['exit']) {
-                    controller.exitGame(obj['isStudyCompleted']);
-                  } else {
-                    var score =
-                        double.tryParse(obj['score'].toString()) ?? 0.0;
+        : Builder(builder: (context) {
+            late final PlatformWebViewControllerCreationParams params;
+            if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+              params = WebKitWebViewControllerCreationParams(
+                allowsInlineMediaPlayback: true,
+                mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+              );
+            } else {
+              params = const PlatformWebViewControllerCreationParams();
+            }
 
-                    if (score > 0) {
-                      controller.submitData(score);
-                    }
-                  }
-                },
-              )
-              ..loadRequest(Uri.parse(url)),
-          );
+            final webCtrl =
+                WebViewController.fromPlatformCreationParams(params)
+                  ..setJavaScriptMode(JavascriptMode.unrestricted)
+                  ..setNavigationDelegate(
+                    wv.NavigationDelegate(
+                      onProgress: (value) =>
+                          controller.loadingProcess.value = value.toDouble(),
+                    ),
+                  )
+                  ..addJavaScriptChannel(
+                    'FKids',
+                    onMessageReceived: (message) {
+                      final obj = jsonDecode(message.message);
+                      if (obj['exit']) {
+                        controller.exitGame(obj['isStudyCompleted']);
+                      } else {
+                        var score =
+                            double.tryParse(obj['score'].toString()) ?? 0.0;
+
+                        if (score > 0) {
+                          controller.submitData(score);
+                        }
+                      }
+                    },
+                  )
+                  ..loadRequest(Uri.parse(url));
+
+            // Allow autoplay on Android WebView
+            if (webCtrl.platform is AndroidWebViewController) {
+              (webCtrl.platform as AndroidWebViewController)
+                  .setMediaPlaybackRequiresUserGesture(false);
+            }
+            // iOS: already set via WebKit params above (allowsInlineMediaPlayback + no user action)
+
+            controller.webViewController = webCtrl;
+            return wv.WebViewWidget(controller: webCtrl);
+          });
   }
 }
 
