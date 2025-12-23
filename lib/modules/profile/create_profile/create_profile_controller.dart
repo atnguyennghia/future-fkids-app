@@ -164,7 +164,7 @@ class CreateProfileController extends GetxController {
     final result =
         await userProvider.getUser().catchError((err) => Notify.error(err));
     if (result != null) {
-      AuthService.to.userModel.value = result;
+      AuthService.to.saveUserModel(result);
     }
   }
 

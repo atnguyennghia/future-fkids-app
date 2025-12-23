@@ -52,47 +52,73 @@ class HomePage extends StatelessWidget {
               Expanded(
                   child: Align(
                 alignment: Alignment.centerRight,
-                child: AuthService.to.hasLogin
-                    ? MenuProfile(
-                        popupMenuController: popupMenuController,
-                      )
-                    : Transform.scale(
-                        alignment: Alignment.centerRight,
-                        scale: 0.75,
-                        child: KButton(
-                          width: context.responsive(mobile: 120, desktop: 160),
-                          onTap: () => Get.toNamed('/auth/login'),
-                          title: 'Đăng nhập',
-                          style: CustomTheme.semiBold(
-                                  context.responsive(mobile: 15, desktop: 16))
-                              .copyWith(color: Colors.white),
-                          prefixIcon: Padding(
-                            child: Image.asset(
-                              'assets/images/key.png',
-                              width: 17,
-                            ),
-                            padding: const EdgeInsets.only(right: 4),
+                child: Obx(() {
+                  // Kiểm tra cả hasLogin và userModel có data không
+                  final hasLogin = AuthService.to.hasLogin;
+                  final hasUserData = AuthService.to.userModel.value.profile != null && 
+                                     AuthService.to.userModel.value.profile!.isNotEmpty;
+                  
+                  // Chỉ hiển thị MenuProfile nếu đã login VÀ có user data
+                  if (hasLogin && hasUserData) {
+                    return MenuProfile(
+                      popupMenuController: popupMenuController,
+                    );
+                  } else {
+                    // Nếu chưa login hoặc chưa có user data, hiển thị nút đăng nhập
+                    return Transform.scale(
+                      alignment: Alignment.centerRight,
+                      scale: 0.75,
+                      child: KButton(
+                        width: context.responsive(mobile: 120, desktop: 160),
+                        onTap: () => Get.toNamed('/auth/login'),
+                        title: 'Đăng nhập',
+                        style: CustomTheme.semiBold(
+                                context.responsive(mobile: 15, desktop: 16))
+                            .copyWith(color: Colors.white),
+                        prefixIcon: Padding(
+                          child: Image.asset(
+                            'assets/images/key.png',
+                            width: 17,
                           ),
+                          padding: const EdgeInsets.only(right: 4),
                         ),
                       ),
+                    );
+                  }
+                }),
               )),
-              AuthService.to.hasLogin
-                  ? const SizedBox(
-                      width: 12,
-                    )
-                  : const SizedBox()
+              Obx(() {
+                final hasLogin = AuthService.to.hasLogin;
+                final hasUserData = AuthService.to.userModel.value.profile != null && 
+                                   AuthService.to.userModel.value.profile!.isNotEmpty;
+                return (hasLogin && hasUserData)
+                    ? const SizedBox(
+                        width: 12,
+                      )
+                    : const SizedBox();
+              })
             ],
           ),
         ),
         const SizedBox(
           height: 8,
         ),
-        AuthService.to.hasLogin ? RecentView() : const BannerWidget(),
-        AuthService.to.hasLogin
-            ? SizedBox(
-                height: context.responsive(mobile: 16, desktop: 32),
-              )
-            : const SizedBox(),
+        Obx(() {
+          final hasLogin = AuthService.to.hasLogin;
+          final hasUserData = AuthService.to.userModel.value.profile != null && 
+                             AuthService.to.userModel.value.profile!.isNotEmpty;
+          return (hasLogin && hasUserData) ? RecentView() : const BannerWidget();
+        }),
+        Obx(() {
+          final hasLogin = AuthService.to.hasLogin;
+          final hasUserData = AuthService.to.userModel.value.profile != null && 
+                             AuthService.to.userModel.value.profile!.isNotEmpty;
+          return (hasLogin && hasUserData)
+              ? SizedBox(
+                  height: context.responsive(mobile: 16, desktop: 32),
+                )
+              : const SizedBox();
+        }),
         context.responsive(
             mobile: Expanded(
               child: Obx(() => AuthService.to.profileModel.value.grade == null

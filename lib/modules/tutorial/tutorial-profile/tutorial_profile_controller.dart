@@ -12,7 +12,7 @@ class TutorialProfileController extends GetxController {
     } else {
       final profile = AuthService.to.userModel.value.profile;
       if (profile != null && profile.isNotEmpty) {
-        AuthService.to.profileModel.value = profile[0];
+        AuthService.to.saveProfileModel(profile[0]);
         Get.offAndToNamed('/tutorial-home');
       }
     }

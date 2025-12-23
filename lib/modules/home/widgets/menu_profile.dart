@@ -124,7 +124,7 @@ class MenuProfile extends StatelessWidget {
                                   final profile = AuthService.to.userModel.value.profile;
                                   final menuIndex = listMenu[index];
                                   if (profile != null && menuIndex != null && menuIndex < profile.length) {
-                                    AuthService.to.profileModel.value = profile[menuIndex];
+                                    AuthService.to.saveProfileModel(profile[menuIndex]);
                                     popupMenuController.hideMenu();
                                     Get.find<RecentController>().fetchStudying();
                                   }

@@ -184,7 +184,7 @@ class ProfileController extends GetxController {
     });
     if (result != null) {
       status.value = 1;
-      AuthService.to.userModel.value = result;
+      AuthService.to.saveUserModel(result);
 
       if (GetStorage().read('first_login') == null) {
         final _dialog = LoadingDialog();
@@ -212,7 +212,7 @@ class ProfileController extends GetxController {
   }
 
   void onSelectProfile(ProfileModel profile) {
-    AuthService.to.profileModel.value = profile;
+    AuthService.to.saveProfileModel(profile);
     Get.offAndToNamed('/');
   }
 

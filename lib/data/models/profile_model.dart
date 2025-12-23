@@ -30,4 +30,21 @@ class ProfileModel {
     provinceName = json['province_name'];
     className = json['class_name'];
   }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['name'] = name;
+    data['age'] = age;
+    data['class'] = grade;
+    data['gender'] = gender;
+    data['type_account'] = typeAccount;
+    data['avatar'] = avatar;
+    data['birthday'] = birthday;
+    data['province_id'] = provinceId;
+    data['province_name'] = provinceName;
+    data['class_name'] = className;
+    return data;
+  }
 }
