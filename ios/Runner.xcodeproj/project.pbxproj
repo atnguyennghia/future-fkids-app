@@ -514,7 +514,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 251222;
+				MARKETING_VERSION = 260924;
 				PRODUCT_BUNDLE_IDENTIFIER = vn.edu.futurelang.futurekids;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -701,7 +701,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 251222;
+				MARKETING_VERSION = 260924;
 				PRODUCT_BUNDLE_IDENTIFIER = vn.edu.futurelang.futurekids;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -728,7 +728,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 251222;
+				MARKETING_VERSION = 260924;
 				PRODUCT_BUNDLE_IDENTIFIER = vn.edu.futurelang.futurekids;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

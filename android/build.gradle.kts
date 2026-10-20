@@ -32,24 +32,6 @@ subprojects {
             }
         }
     }
-    
-    // Fix JVM target compatibility for old plugins that need it
-    val oldPluginsList = listOf("audioplayers_android")
-    if (oldPluginsList.contains(project.name)) {
-        project.plugins.withId("com.android.library") {
-            val androidExtension = project.extensions.getByType<com.android.build.gradle.LibraryExtension>()
-            // Set both Java and Kotlin to JVM 11 for audioplayers_android
-            androidExtension.compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_11
-                targetCompatibility = JavaVersion.VERSION_11
-            }
-            project.tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-                kotlinOptions {
-                    jvmTarget = "11"
-                }
-            }
-        }
-    }
 }
 
 tasks.register<Delete>("clean") {

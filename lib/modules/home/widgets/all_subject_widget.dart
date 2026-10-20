@@ -69,38 +69,19 @@ class AllSubjectWWidget extends StatelessWidget {
                             vertical:
                                 context.responsive(mobile: 16, desktop: 28)),
                         alignment: Alignment.center,
-                        color: controller.selectedIndex.value == 1
-                            ? kAccentColor
-                            : Colors.white,
+                        decoration: BoxDecoration(
+                          color: controller.selectedIndex.value == 1
+                              ? kAccentColor
+                              : Colors.white,
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(24),
+                              bottomRight: Radius.circular(24)),
+                        ),
                         child: Text('Tiếng Việt',
                             style: CustomTheme.semiBold(
                                     context.responsive(mobile: 18, desktop: 20))
                                 .copyWith(
                                     color: controller.selectedIndex.value == 1
-                                        ? Colors.white
-                                        : kNeutral2Color)),
-                      ),
-                    )),
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () => controller.selectedIndex.value = 2,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical:
-                                context.responsive(mobile: 16, desktop: 28)),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: controller.selectedIndex.value == 2
-                                ? kAccentColor
-                                : Colors.white,
-                            borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(24),
-                                bottomRight: Radius.circular(24))),
-                        child: Text('Tiếng Anh',
-                            style: CustomTheme.semiBold(
-                                    context.responsive(mobile: 18, desktop: 20))
-                                .copyWith(
-                                    color: controller.selectedIndex.value == 2
                                         ? Colors.white
                                         : kNeutral2Color)),
                       ),
@@ -121,7 +102,7 @@ class AllSubjectWWidget extends StatelessWidget {
                         child: IndexedStack(
                           index: controller.selectedIndex.value,
                           children: List.generate(
-                              3,
+                              2,
                               (index) => SubjectGradeView(
                                     subjectId: index + 1,
                                     isTutorial: isTutorial,
@@ -136,7 +117,7 @@ class AllSubjectWWidget extends StatelessWidget {
                     child: IndexedStack(
                       index: controller.selectedIndex.value,
                       children: List.generate(
-                          3,
+                          2,
                           (index) => SubjectGradeView(
                                 subjectId: index + 1,
                                 isTutorial: isTutorial,

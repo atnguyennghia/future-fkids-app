@@ -132,38 +132,6 @@ class RankPage extends StatelessWidget {
           ),
         ),
       ),
-      isDesktop
-          ? const SizedBox(
-              width: 50,
-            )
-          : const SizedBox(
-              height: 16,
-            ),
-      GestureDetector(
-        onTap: () => AuthService.to.profileModel.value.typeAccount == 0
-            ? controller.showPopupSelectClass(subjectId: 3)
-            : Get.toNamed('/rank/detail', arguments: {
-                "class_id": AuthService.to.profileModel.value.grade,
-                "class_name": AuthService.to.profileModel.value.className,
-                "subject_id": 3
-              }),
-        child: BoxBorderGradient(
-          width: isDesktop ? 280 : 290,
-          borderRadius: BorderRadius.circular(isDesktop ? 24 : 20),
-          borderSize: 5,
-          boxShadow: const [
-            BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.2),
-                offset: Offset(0, 2),
-                blurRadius: 4)
-          ],
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-                'assets/images/avatar_tieng_anh${isDesktop ? '-desktop' : ''}.png'),
-          ),
-        ),
-      ),
     ];
   }
 }
